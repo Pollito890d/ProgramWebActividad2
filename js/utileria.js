@@ -5,8 +5,6 @@
 
 /**
  * Valida si una cadena cumple con el formato estándar de correo electrónico.
- * @param {string} correo - Correo a validar.
- * @returns {boolean} True si es válido, false en caso contrario.
  */
 function validarCorreo(correo) {
     if (typeof correo !== 'string') return false;
@@ -16,8 +14,6 @@ function validarCorreo(correo) {
 
 /**
  * Valida que una cadena contenga exclusivamente letras (incluye vocales acentuadas, ñ y espacios).
- * @param {string} texto - Cadena a evaluar.
- * @returns {boolean} True si solo contiene letras y espacios válidos.
  */
 function soloLetras(texto) {
     if (typeof texto !== 'string' || texto.trim().length === 0) return false;
@@ -27,9 +23,6 @@ function soloLetras(texto) {
 
 /**
  * Valida que la longitud de un número o su representación textual no supere una longitud máxima.
- * @param {number|string} numero - Número o texto numérico a comprobar.
- * @param {number} maxLongitud - Longitud máxima permitida.
- * @returns {boolean} True si la longitud es menor o igual al máximo y contiene solo dígitos, false en caso contrario 
  */
 function validarLongitud(numero, maxLongitud) {
     if (numero === null || numero === undefined) return false;
@@ -40,8 +33,6 @@ function validarLongitud(numero, maxLongitud) {
 
 /**
  * Calcula la edad exacta en años cumplidos a partir de una fecha de nacimiento.
- * @param {string|Date} fechaNacimiento - Fecha en formato 'YYYY-MM-DD' o instancia de Date.
- * @returns {number} Edad entera calculada (o -1 si la fecha es inválida/futura).
  */
 function calcularEdad(fechaNacimiento) {
     const nacimiento = new Date(fechaNacimiento);
@@ -57,8 +48,6 @@ function calcularEdad(fechaNacimiento) {
 
 /**
  * Valida si una persona es mayor o igual a 18 años según su fecha de nacimiento.
- * @param {string|Date} fechaNacimiento - Fecha de nacimiento.
- * @returns {boolean} True si tiene 18 años o más.
  */
 function esMayorDeEdad(fechaNacimiento) {
     const edad = calcularEdad(fechaNacimiento);
@@ -68,8 +57,6 @@ function esMayorDeEdad(fechaNacimiento) {
 /**
  * Valida que la contraseña cumpla con: mínimo 8 caracteres, al menos una mayúscula,
  * una minúscula, un número y un carácter especial.
- * @param {string} password - Contraseña a evaluar.
- * @returns {boolean} True si es una contraseña segura.
  */
 function validarPassword(password) {
     if (typeof password !== 'string') return false;
@@ -82,8 +69,6 @@ function validarPassword(password) {
 
 /**
  * Valida si una cadena cumple con la estructura y formato oficial de la CURP en México.
- * @param {string} curp - Cadena con los 18 caracteres de la CURP.
- * @returns {boolean} True si la CURP cumple con el formato oficial, false en caso contrario.
  */
 function validarCURP(curp) {
     if (typeof curp !== 'string') return false;
@@ -95,34 +80,20 @@ function validarCURP(curp) {
 /**
  * Calcula con precisión cuántos días y horas exactas faltan para el próximo cumpleaños
  * a partir de una fecha de nacimiento (YYYY-MM-DD).
- * @param {string|Date} fechaNacimiento - Fecha de nacimiento de la persona.
- * @returns {{dias: number, horas: number, mensaje: string}|null} Objeto con días, horas y mensaje textual, o null si la fecha es inválida.
  */
 function tiempoParaCumpleanos(fechaNacimiento) {
-    const nacimiento = new Date(fechaNacimiento);
-    if (isNaN(nacimiento.getTime())) return null;
+    const partes = fechaNacimiento.split('-');
+    if (partes.length !== 3) return "Fecha no válida";
+    const mesNacimiento = parseInt(partes[1], 10) - 1;
+    const diaNacimiento = parseInt(partes[2], 10);
     const ahora = new Date();
-    const anioActual = ahora.getFullYear();
-    // Fecha del cumpleaños en el año en curso
-    let proximoCumple = new Date(
-        anioActual,
-        nacimiento.getUTCMonth(),
-        nacimiento.getUTCDate(),
-        0, 0, 0, 0
-    );
-    // Si ya pasó en este año, el próximo será el siguiente año
+    let proximoCumple = new Date(ahora.getFullYear(), mesNacimiento, diaNacimiento, 0, 0, 0);
     if (ahora.getTime() > proximoCumple.getTime()) {
-        proximoCumple.setFullYear(anioActual + 1);
+        proximoCumple.setFullYear(ahora.getFullYear() + 1);
     }
     const diferenciaMs = proximoCumple.getTime() - ahora.getTime();
-    // Cálculos de tiempo
-    const msEnUnaHora = 1000 * 60 * 60;
-    const msEnUnDia = msEnUnaHora * 24;
-    const dias = Math.floor(diferenciaMs / msEnUnDia);
-    const horas = Math.floor((diferenciaMs % msEnUnDia) / msEnUnaHora);
-    return {
-        dias: dias,
-        horas: horas,
-        mensaje: `Faltan ${dias} días y ${horas} horas para tu cumpleaños.`
-    };
+    const dias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferenciaMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    //Regresar los días y horas:
+    return `Faltan ${dias} días y ${horas} horas para tu cumpleaños.`;
 }
