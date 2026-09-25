@@ -53,19 +53,18 @@ function esMayorDeEdad(fechaNacimiento) {
     const edad = calcularEdad(fechaNacimiento);
     return edad >= 18;
 }
-
 /**
  * Valida que la contraseña cumpla con: mínimo 8 caracteres, al menos una mayúscula,
  * una minúscula, un número y un carácter especial.
  */
 function validarPassword(password) {
     if (typeof password !== 'string') return false;
-    // Requiere: (?=.*[a-z]) (?=.*[A-Z]) (?=.*\d) (?=.*[@$!%*?&._#\-]) min 8 chars
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._#\-])[A-Za-z\d@$!%*?&._#-]{8,}$/;
     return regex.test(password);
 }
+//EN EL REGISTRO QUE SI CUMPLA LA LONGITUD DE LA CONTRASEÑA, QUE SE VALIDE QUE SEA UNA CONTRASEÑA VALIDA
 
-// SECCIÓN DE IDEAS DEL PROGRAMADOR
+// SECCIÓN DE FUNCIONES PROPUESTAS DEL PROGRAMADOR
 
 /**
  * Valida si una cadena cumple con la estructura y formato oficial de la CURP en México.
@@ -84,8 +83,8 @@ function validarCURP(curp) {
 function tiempoParaCumpleanos(fechaNacimiento) {
     const partes = fechaNacimiento.split('-');
     if (partes.length !== 3) return "Fecha no válida";
-    const mesNacimiento = parseInt(partes[1], 10) - 1;
-    const diaNacimiento = parseInt(partes[2], 10);
+    const mesNacimiento = parseInt(partes[1]) - 1;
+    const diaNacimiento = parseInt(partes[2]);
     const ahora = new Date();
     let proximoCumple = new Date(ahora.getFullYear(), mesNacimiento, diaNacimiento, 0, 0, 0);
     if (ahora.getTime() > proximoCumple.getTime()) {

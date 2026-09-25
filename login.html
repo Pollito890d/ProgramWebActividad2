@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="card">
-        <h2>Inicio de sesión</h2>
+        <h2>Registro</h2>
         <form id="registroForm">
             <!-- Nombre -->
             <div class="form-group">
@@ -34,10 +34,15 @@
                 <input type="date" id="nacimiento">
                 <span class="error-text" id="err-nacimiento">Debes ser mayor de edad (+18).</span>
             </div>
-
+            <!-- Contraseña -->
+            <div class="form-group">
+                <label for="pass">Contraseña</label>
+                <input type="password" id="pass" placeholder="••••••••">
+                <span class="error-text" id="err-pass">Mínimo 8 caracteres, una mayúscula, una minúscula, un número y un símbolo.</span>
+            </div>
             <button type="submit" class="btn">Validar y Registrar</button>
         </form>
-        <a href="login.html" class="nav-link">¿Ya tienes cuenta? Ir a Iniciar Sesión</a>
+        <a href="./index.html" class="nav-link">¿Ya tienes cuenta? Ir a Iniciar Sesión</a>
     </div>
     <!-- Modal con Edad y Cumpleaños -->
     <div class="modal-overlay" id="modalResultado">
@@ -51,66 +56,7 @@
     <!-- Enlace a la librería -->
     <script src="./js/utileria.js"></script>
     <!-- Script de conexión con la interfaz -->
-    <script>
-        const form = document.getElementById('registroForm');
-        const modal = document.getElementById('modalResultado');
-        const txtEdad = document.getElementById('txtEdad');
-        const txtCumple = document.getElementById('txtCumple');
-        const btnCerrar = document.getElementById('btnCerrarModal');
-
-        form.addEventListener('submit', (e) => {
-            // Evita que la página se recargue
-            e.preventDefault();
-            // Obtenemos los valores ingresados
-            const nombre = document.getElementById('nombre').value;
-            const curp = document.getElementById('curp').value;
-            const codigo = document.getElementById('codigo').value;
-            const fecha = document.getElementById('nacimiento').value;
-            let esValido = true;
-            // 1. Validar letras
-            if (!soloLetras(nombre)) {
-                document.getElementById('err-nombre').style.display = 'block';
-                esValido = false;
-            } else {
-                document.getElementById('err-nombre').style.display = 'none';
-            }
-            // 2. Validar CURP
-            if (!validarCURP(curp)) {
-                document.getElementById('err-curp').style.display = 'block';
-                esValido = false;
-            } else {
-                document.getElementById('err-curp').style.display = 'none';
-            }
-            // 3. Validar longitud de número
-            if (!validarLongitud(codigo, 5)) {
-                document.getElementById('err-codigo').style.display = 'block';
-                esValido = false;
-            } else {
-                document.getElementById('err-codigo').style.display = 'none';
-            }
-            // 4. Validar mayoría de edad
-            if (!esMayorDeEdad(fecha)) {
-                document.getElementById('err-nacimiento').style.display = 'block';
-                esValido = false;
-            } else {
-                document.getElementById('err-nacimiento').style.display = 'none';
-            }
-            // Si todo fue correcto, calculamos y mostramos el modal
-            if (esValido) {
-                const edad = calcularEdad(fecha);
-                const cuentaRegresiva = tiempoParaCumpleanos(fecha);
-                // Se escriben los resultados dentro del modal
-                txtEdad.textContent = `Tienes ${edad} años de edad cumplidos.`;
-                txtCumple.textContent = cuentaRegresiva;
-                // Mostramos el modal
-                modal.style.display = 'flex';
-            }
-        });
-        // Cerrar modal al hacer clic en el botón
-        btnCerrar.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-    </script>
+    <script src="./js/procesamientodatos.js"></script>
 
 </body>
 </html>
